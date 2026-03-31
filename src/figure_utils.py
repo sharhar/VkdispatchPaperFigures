@@ -52,7 +52,7 @@ def load_test_data(test_id: str, test_category: str, load_dual: bool, test_folde
     return results
 
 def load_tests(tests: Dict[str, Tuple[str, str]]):
-    load_dual = sys.argv.count("--dual_nvidia_macos") != 0
+    load_dual = True # sys.argv.count("--dual_nvidia_macos") != 0
     test_data = {}
     for test_name, (test_id, test_category) in tests.items():
         data = load_test_data(test_id, test_category, load_dual)
@@ -387,7 +387,7 @@ def save_single_plot_data_csv(test_data: Dict[str, SingleTestDataType], output_n
         headers.extend([f"{nice_name} Mean", f"{nice_name} Std"])
 
     # 3. Write to CSV
-    csv_filename = f"{output_name}.csv"
+    csv_filename = f"../figures/{output_name}.csv"
     try:
         with open(csv_filename, mode='w', newline='') as f:
             writer = csv.writer(f)
@@ -495,10 +495,10 @@ def plot_data(test_data: Dict[str, TestDataType],
 
     plt.tight_layout()
 
-    plt.savefig(f"{output_name}.pdf", format='pdf', dpi=300)
+    plt.savefig(f"../figures/{output_name}.pdf", format='pdf', dpi=300)
     print(f"Graph saved successfully to {output_name}.pdf")
 
-    plt.savefig(f"{output_name}.png", format='png', dpi=300)
+    plt.savefig(f"../figures/{output_name}.png", format='png', dpi=300)
     print(f"Graph saved successfully to {output_name}.png")
 
     save_plot_data_csv(test_data, output_name)

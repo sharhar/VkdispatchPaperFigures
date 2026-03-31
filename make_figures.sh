@@ -1,6 +1,8 @@
 #! /bin/bash
 
-cd figures
+mkdir -p figures
+
+cd src
 
 python3 make_fig1.py $1
 python3 make_fig2.py $1
