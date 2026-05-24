@@ -66,6 +66,7 @@ class TestProperties:
     marker: str
     linestyle: str
     y_scaling: bool
+    empty: bool
 
 # Colorblind-safe palette (Okabe-Ito):
 #   Blue:      #0072B2 - not used
@@ -97,77 +98,87 @@ test_properties = {
     # === VkFFT family ===
     "vkfft": TestProperties(
         name="VkFFT (Fused)",
-        color="#56B4E9",
-        marker='P',
+        color="#E69F00",
+        marker='X',
         linestyle='-',
-        y_scaling=True
+        y_scaling=True,
+        empty=False,
     ),
     "vkfft_accuracy": TestProperties(
         name="VkFFT",
-        color="#56B4E9",
-        marker='P',
+        color="#E69F00",
+        marker='X',
         linestyle='-',
-        y_scaling=True
+        y_scaling=True,
+        empty=False,
     ),
     "vkfft_naive": TestProperties(
         name="VkFFT (Naive)",
-        color='#56B4E9',
-        marker='h',
+        color='#E69F00',
+        marker='X',
         linestyle='--',
-        y_scaling=False
+        y_scaling=False,
+        empty=True,
     ),
 
     # === VkDispatch family ===
     "vkdispatch_vulkan": TestProperties(
         name="VkDispatch VK (Fused)",
-        color='#D55E00',
-        marker='s',
+        color='#009E73',
+        marker='o',
         linestyle='-',
-        y_scaling=True
+        y_scaling=True,
+        empty=False,
     ),
     "vkdispatch_vulkan_accuracy": TestProperties(
         name="VkDispatch",
-        color='#D55E00',
-        marker='s',
+        color='#009E73',
+        marker='o',
         linestyle='-',
-        y_scaling=True
+        y_scaling=True,
+        empty=False,
     ),
     "vkdispatch_naive_vulkan": TestProperties(
         name="VkDispatch VK (Naive)",
-        color='#D55E00',
+        color='#009E73',
         marker='o',
         linestyle='--',
-        y_scaling=False
+        y_scaling=False,
+        empty=True,
     ),
 
     "vkdispatch_cuda": TestProperties(
         name="VkDispatch CU (Fused)",
-        color='#E69F00',
-        marker='s', 
+        color='#56B4E9',
+        marker='o', 
         linestyle='-',
-        y_scaling=True
+        y_scaling=True,
+        empty=False,
     ),
     "vkdispatch_naive_cuda": TestProperties(
         name="VkDispatch CU (Naive)",
-        color='#E69F00',
+        color='#56B4E9',
         marker='o', 
         linestyle='--',
-        y_scaling=False
+        y_scaling=False,
+        empty=True,
     ),
 
     "vkdispatch_opencl": TestProperties(
         name="VkDispatch CL (Fused)",
         color='#0072B2',
-        marker='s', 
+        marker='o', 
         linestyle='-',
-        y_scaling=True
+        y_scaling=True,
+        empty=False,
     ),
     "vkdispatch_naive_opencl": TestProperties(
         name="VkDispatch CL (Naive)",
         color='#0072B2',
         marker='o', 
         linestyle='--',
-        y_scaling=False
+        y_scaling=False,
+        empty=True,
     ),
 
     # === cuFFT family ===
@@ -176,44 +187,50 @@ test_properties = {
         color='#000000',      # black (reference baseline)
         marker='p',
         linestyle=':',
-        y_scaling=None
+        y_scaling=None,
+        empty=False,
     ),
     "cufft_nvidia": TestProperties(
         name="cuFFT NV (Naive)",
         color='#CC79A7',
-        marker='*',
+        marker='v',
         linestyle='--',
-        y_scaling=False
+        y_scaling=False,
+        empty=True,
     ),
     "cufftdx_nvidia": TestProperties(
         name="cuFFTDx NV (Fused)",
         color='#CC79A7',
-        marker='X',
+        marker='v',
         linestyle='-',
-        y_scaling=True
+        y_scaling=True,
+        empty=False,
     ),
 
     # === cuFFTDx family ===
     "cufftdx": TestProperties(
         name="cuFFTDx (Fused)",
-        color='#009E73',
-        marker='v',
+        color='#D55E00',
+        marker='^',
         linestyle='-',
-        y_scaling=True
+        y_scaling=True,
+        empty=False,
     ),
     "cufftdx_accuracy": TestProperties(
         name="cuFFTDx",
-        color='#009E73',
-        marker='v',
+        color='#D55E00',
+        marker='^',
         linestyle='-',
-        y_scaling=True
+        y_scaling=True,
+        empty=False,
     ),
     "cufftdx_naive": TestProperties(
         name="cuFFTDx (Naive)",
-        color='#009E73',
+        color='#D55E00',
         marker='^',
         linestyle='--',
-        y_scaling=False
+        y_scaling=False,
+        empty=True,
     ),
 }
 
@@ -339,8 +356,11 @@ def plot_panel(ax_main,
                     label=props.name,
                     color=props.color,
                     marker=props.marker,
-                    markersize=5,
-                    linestyle=props.linestyle, linewidth=1, alpha=0.9)
+                    markersize=10,
+                    markeredgecolor=props.color,
+                    markeredgewidth=2,
+                    markerfacecolor='white' if props.empty else props.color,
+                    linestyle=props.linestyle, linewidth=2, alpha=1)
 
     ax_main.set_xscale('log', base=2)
     ax_main.set_xlabel('FFT Size (N)')
